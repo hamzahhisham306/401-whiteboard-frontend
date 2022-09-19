@@ -7,7 +7,7 @@ import Nav from './Nav'
 import { Link } from 'react-router-dom';
 import Footer from './Footer';
 
-function Post() {
+function Post({isSign, handlerSign}) {
     const [allPostWithComment, setPost]=useState([]);
     const deletePost=async(id)=>{
         const res=await axios.delete(`https://seqlizer-server.herokuapp.com/post/${id}`);
@@ -27,7 +27,7 @@ function Post() {
   
   return (
     <Container>
-          <Nav/>
+          <Nav  handlerSign={handlerSign} isSign={isSign}/>
          <Table striped bordered hover>
         <thead>
           <tr>
@@ -35,6 +35,8 @@ function Post() {
             <th>age</th>
             <th>descrption</th>
             <th>Nationality</th>
+            <th>Add Comment</th>
+            <th>Delete Post</th>
           </tr>
         </thead>
         {allPostWithComment&&allPostWithComment.map((item,index)=>{

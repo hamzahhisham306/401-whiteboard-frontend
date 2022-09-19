@@ -22,15 +22,15 @@ function Addpostform() {
     <div>
         <Nav/>
    <form className='create' onSubmit={handlerSumit}>
-        <h3>Form Post</h3>
-        <label>name</label>
+        <h3 style={{color:'#D6CDA4'}}>Form Post</h3>
+        <label style={{color:'#EEF2E6'}}>name</label>
         <input
          type='text'
          onChange={(e)=>setName(e.target.value)}
          value={name}
          
         />
-        <label>age</label>
+        <label style={{color:'#EEF2E6'}}>age</label>
         <input
         type='number'
         max='130'

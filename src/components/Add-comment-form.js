@@ -25,20 +25,20 @@ function Addcommentform() {
     <div>
         <Nav/>
     <form className='create' onSubmit={handlerSumit}>
-         <h3>Form Comment</h3>
-         <label>descrption</label>
+         <h3 style={{color:'#D6CDA4'}}>Form Comment</h3>
+         <label style={{color:'#EEF2E6'}}>descrption</label>
          <input
           type='text'
           onChange={(e)=>setDescrption(e.target.value)}
           value={descrption}
          />
-         <label>Nationality</label>
+         <label style={{color:'#EEF2E6'}} >Nationality</label>
          <input
          type='text'
          onChange={(e)=>setNationlity(e.target.value)}
          value={Nationality}
          />
-         <label>id Post</label>
+         <label style={{color:'#EEF2E6'}}>id Post</label>
          <input
          type='number'
          defaultValue={Number(id)}
