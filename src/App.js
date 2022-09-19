@@ -1,13 +1,18 @@
 
-import './App.css';
-import Post from './components/Post';
 import Container from 'react-bootstrap/Container';
 import { Routes, Route } from "react-router-dom";
 
 import Addpostform from './components/Add-post-form'
 import Addcommentform from './components/Add-comment-form';
-
+import SingUp from './components/SingUp';
+import Signin from './components/Signin';
+import Post from './components/Post';
+import { useState } from 'react';
 function App() {
+  const [isSign, setSign]= useState(false);
+  const handlerSign=(boll)=>{
+    setSign(boll);
+  };
   return (
     <Container className="App">
       <Routes>
@@ -17,11 +22,20 @@ function App() {
      />
     <Route
       path='/'
-      element={<Post/>}
+      element={<Signin handlerSign={handlerSign} isSign={isSign}/>}
      />
+    
     <Route
       path='/formComment/:id'
       element={<Addcommentform/>}
+     />
+      <Route
+      path='/SingUp'
+      element={<SingUp/>}
+     />
+     <Route
+      path='/Post'
+      element={<Post handlerSign={handlerSign} isSign={isSign}/>}
      />
     </Routes>
 
