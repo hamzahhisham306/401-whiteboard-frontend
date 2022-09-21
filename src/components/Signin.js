@@ -3,14 +3,16 @@ import React, { useState } from 'react'
 import { Routes, Route, Link } from "react-router-dom";
 import base64 from 'base-64';
 import Post from './Post'
+import cookies from 'react-cookies';
 
-function Signin({isSign, handlerSign}) {
+
+function Signin({isSign, handlerSign,setName}) {
  const [username, setUsername]=useState('');
  const [password, setPassword]=useState('');
  const [confirm, setConfirm]=useState('');
-//  const [Signin, setSignin]=useState(false);
  const [ErrorPassword, setErrorPassword]=useState(false);
  const [message, setMessage]=useState(false);
+
 
  const handlerSubmit=async(e)=>{
     e.preventDefault();
@@ -31,9 +33,12 @@ function Signin({isSign, handlerSign}) {
             Authorization: `Basic ${encoded}`
         }
     }).then(res=>{
-        console.log(res.data);
-       console.log('Loging');
-    //    setSignin(true);
+        console.log("TOKEN>>",res.data);
+        cookies.save('userId',res.data.id);
+        cookies.save('userName', res.data.username);
+        cookies.save('token',res.data.token);
+       console.log('Loging',typeof res.data.username);
+   
     handlerSign(true);
        setErrorPassword(false);
        setMessage(false);
@@ -41,6 +46,7 @@ function Signin({isSign, handlerSign}) {
         console.log(error)
         setMessage(true);
     });
+
     }
  }
   return (
@@ -56,7 +62,7 @@ function Signin({isSign, handlerSign}) {
           <input type='password' onChange={(e)=>setPassword(e.target.value)}/>
           <label>confirm password</label>
           {ErrorPassword&&<p style={{color:'red'}}>password don't match</p>}
-          {message&&<p style={{color:'red'}}>your password or username is not correct</p>}
+          {message&&<p style={{color:'red'}}>Invalid login</p>}
           <input type='password' onChange={(e)=>setConfirm(e.target.value)}/>
           <button type='submit'>Submit</button>
         </form>

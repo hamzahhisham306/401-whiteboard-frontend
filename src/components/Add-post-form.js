@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import axios from 'axios'
 import  Nav from './Nav';
 import Footer from './Footer';
-function Addpostform() {
+function Addpostform({nameUser}) {
     const [name, setName]=useState('');
     const [age, setAge]=useState();
      
@@ -20,7 +20,7 @@ function Addpostform() {
 
   return (
     <div>
-        <Nav/>
+        <Nav nameUser={nameUser}/>
    <form className='create' onSubmit={handlerSumit}>
         <h3 style={{color:'#D6CDA4'}}>Form Post</h3>
         <label style={{color:'#EEF2E6'}}>name</label>
