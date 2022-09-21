@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Routes, Route } from "react-router-dom";
 import Post from './Post'
+import cookies from 'react-cookies';
 
 function SingUp() {
   const [username, setUserName]=useState('');
@@ -29,8 +30,12 @@ function SingUp() {
       password
     }
     await axios.post('https://seqlizer-server.herokuapp.com/signup',newUser).then(respone=>{
-      console.log(respone);
+      console.log("SING UP>>>",respone.data);
       setSignin(true);
+      cookies.save('userId',respone.data.id);
+      cookies.save('userName', respone.data.username);
+      cookies.save('token',respone.data.token);
+      
     }).catch(error=>console.log(error));
   }
   }

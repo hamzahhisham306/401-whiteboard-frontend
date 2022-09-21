@@ -7,22 +7,30 @@ import Addcommentform from './components/Add-comment-form';
 import SingUp from './components/SingUp';
 import Signin from './components/Signin';
 import Post from './components/Post';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import cookies from 'react-cookies';
+
 function App() {
   const [isSign, setSign]= useState(false);
   const handlerSign=(boll)=>{
     setSign(boll);
+        
   };
+  useEffect(()=>{
+    if(cookies.load('token')){
+      setSign(true);
+    }
+  },[]);
   return (
     <Container className="App">
       <Routes>
      <Route
       path='/formPost'
-      element={<Addpostform/>}
+      element={<Addpostform />}
      />
     <Route
       path='/'
-      element={<Signin handlerSign={handlerSign} isSign={isSign}/>}
+      element={<Signin handlerSign={handlerSign} isSign={isSign} />}
      />
     
     <Route
