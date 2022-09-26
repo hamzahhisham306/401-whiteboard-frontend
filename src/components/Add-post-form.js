@@ -1,21 +1,31 @@
-import React,{useState} from 'react'
+import React from 'react'
 import axios from 'axios'
 import  Nav from './Nav';
 import Footer from './Footer';
+import cookies from 'react-cookies'
 function Addpostform({nameUser}) {
-    const [name, setName]=useState('');
-    const [age, setAge]=useState();
+    // const [name, setName]=useState('');
+    // const [age, setAge]=useState();
+  
+   
      
      const handlerSumit=async(e)=>{
         e.preventDefault();
+
         const newPost={
-            name:name,
-            age:age,
+            name:e.target.name.value,
+            age:e.target.age.value,
+            ownerID:cookies.load('userId'),
         }
-     const res= await axios.post('https://seqlizer-server.herokuapp.com/post',newPost)
-     console.log(res);
-     setName('');
-     setAge('');
+        console.log("new>>>",newPost);
+    await axios.post('https://postgrees-srv.herokuapp.com/post',newPost,{
+      headers:{
+        Authorization:`Bearer ${cookies.load('token')} `
+      }
+     })
+     e.target.reset();
+    //  setName('');
+    //  setAge('');
      }
 
   return (
@@ -25,19 +35,15 @@ function Addpostform({nameUser}) {
         <h3 style={{color:'#D6CDA4'}}>Form Post</h3>
         <label style={{color:'#EEF2E6'}}>name</label>
         <input
+        id='name'
          type='text'
-         onChange={(e)=>setName(e.target.value)}
-         value={name}
-         
         />
         <label style={{color:'#EEF2E6'}}>age</label>
         <input
         type='number'
         max='130'
         min='0'
-        onChange={(e)=>setAge(e.target.value)}
-        value={age}
-       
+        id='age'
         />
         <button type='submit'>Sumit</button>
 

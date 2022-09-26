@@ -5,12 +5,12 @@ import cookies from 'react-cookies';
 
 function ListExample( {handlerSign,nameUser}) {
 
- 
-  
   const handlerLogout=()=>{
         cookies.remove('token');
         cookies.remove('userName');
         cookies.remove('userId');
+        cookies.remove('userRole');
+        cookies.remove('capabilities')
         handlerSign(false)
 
   }

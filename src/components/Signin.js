@@ -28,15 +28,18 @@ function Signin({isSign, handlerSign,setName}) {
             password:password
           };
         const encoded=base64.encode(`${user.username}:${user.password}`)
-    await axios.post('https://seqlizer-server.herokuapp.com/signin',{},{
+    await axios.post('https://postgrees-srv.herokuapp.com/signin',{},{
         headers:{
-            Authorization: `Basic ${encoded}`
+            Authorization: `Basic ${encoded}`,
         }
     }).then(res=>{
         console.log("TOKEN>>",res.data);
         cookies.save('userId',res.data.id);
         cookies.save('userName', res.data.username);
         cookies.save('token',res.data.token);
+        cookies.save('capabilities',res.data.capabilities);
+        cookies.save('userRole',res.data.userRole);
+
        console.log('Loging',typeof res.data.username);
    
     handlerSign(true);
