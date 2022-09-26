@@ -7,25 +7,25 @@ import cookies from 'react-cookies';
 
 
 function Signin({isSign, handlerSign,setName}) {
- const [username, setUsername]=useState('');
- const [password, setPassword]=useState('');
- const [confirm, setConfirm]=useState('');
+//  const [username, setUsername]=useState('');
+//  const [password, setPassword]=useState('');
+//  const [confirm, setConfirm]=useState('');
  const [ErrorPassword, setErrorPassword]=useState(false);
  const [message, setMessage]=useState(false);
 
 
  const handlerSubmit=async(e)=>{
     e.preventDefault();
-    if(username===''||password===''||confirm===''){
+    if(e.target.username.value===''||e.target.password.value===''||e.target.confirm.value===''){
       alert('please fill all field')
     }
-    else if(password!==confirm){
+    else if(e.target.password.value!==e.target.confirm.value){
       setErrorPassword(true);
     }
-    else if(password===confirm){
+    else if(e.target.password.value===e.target.confirm.value){
         const user={
-            username:username,
-            password:password
+            username:e.target.username.value,
+            password:e.target.password.value
           };
         const encoded=base64.encode(`${user.username}:${user.password}`)
     await axios.post('https://postgrees-srv.herokuapp.com/signin',{},{
@@ -38,10 +38,7 @@ function Signin({isSign, handlerSign,setName}) {
         cookies.save('userName', res.data.username);
         cookies.save('token',res.data.token);
         cookies.save('capabilities',res.data.capabilities);
-        cookies.save('userRole',res.data.userRole);
-
-       console.log('Loging',typeof res.data.username);
-   
+        cookies.save('userRole',res.data.userRole);   
     handlerSign(true);
        setErrorPassword(false);
        setMessage(false);
@@ -60,13 +57,13 @@ function Signin({isSign, handlerSign,setName}) {
           <h2 >Login Form</h2>
           </div>
           <label>Username</label>
-          <input type='text' onChange={(e)=>setUsername(e.target.value)} />
+          <input type='text' id='username'/>
           <label>password</label>
-          <input type='password' onChange={(e)=>setPassword(e.target.value)}/>
+          <input type='password' id='password'/>
           <label>confirm password</label>
           {ErrorPassword&&<p style={{color:'red'}}>password don't match</p>}
           {message&&<p style={{color:'red'}}>Invalid login</p>}
-          <input type='password' onChange={(e)=>setConfirm(e.target.value)}/>
+          <input type='password' id='confirm'/>
           <button type='submit'>Submit</button>
         </form>
         <Link to='/SingUp'><button style={{display:'block', margin:'auto', padding:'20px', textDecoration:'none'}}>Sign Up</button></Link>
