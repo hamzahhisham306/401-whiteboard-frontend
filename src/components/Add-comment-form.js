@@ -1,32 +1,30 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import Footer from './Footer';
 import Nav from './Nav';
 import cookies from 'react-cookies';
 function Addcommentform({nameUser}) {
     const {id}=useParams();
-    const [descrption, setDescrption]=useState('');
-    const [Nationality, setNationlity]=useState('');
+    // const [descrption, setDescrption]=useState('');
+    // const [Nationality, setNationlity]=useState('');
      
      const handlerSumit=async(e)=>{
         e.preventDefault();
-        const Iduser=cookies.load('userId')
+    
      
     
         const newComment={
-            descrption:descrption,
-            Nationality:Nationality,
+            descrption:e.target.descrption.value,
+            Nationality:e.target.Nationality.value,
             postID:Number(id),
-            userID:Iduser,
+            userID:Number(cookies.load('userId')),
             username:cookies.load('userName')
 
         }
-     const res= await axios.post('https://postgrees-srv.herokuapp.com/comment',newComment)
-     console.log("from comments",res.data);
-    
-     setDescrption('');
-     setNationlity('')
+        console.log("newComment>>>>>>>>>>",newComment)
+      await axios.post('https://postgrees-srv.herokuapp.com/comment',newComment)    
+    e.target.reset();
      }
  
   return (
@@ -37,14 +35,12 @@ function Addcommentform({nameUser}) {
          <label style={{color:'#EEF2E6'}}>descrption</label>
          <input
           type='text'
-          onChange={(e)=>setDescrption(e.target.value)}
-          value={descrption}
+         id='descrption'
          />
          <label style={{color:'#EEF2E6'}} >Nationality</label>
          <input
          type='text'
-         onChange={(e)=>setNationlity(e.target.value)}
-         value={Nationality}
+         id='Nationality'
          />
          <label style={{color:'#EEF2E6'}}>id Post</label>
          <input

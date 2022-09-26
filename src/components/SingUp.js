@@ -5,30 +5,27 @@ import Post from './Post'
 import cookies from 'react-cookies';
 
 function SingUp() {
-  const [username, setUserName]=useState('');
-  const [email, setEmail]=useState('');
-  const [password, setPassword]=useState('');
-  const [confirm, setConfirm]=useState('');
+  // const [username, setUserName]=useState('');
+  // const [email, setEmail]=useState('');
+  // const [password, setPassword]=useState('');
+  // const [confirm, setConfirm]=useState('');
   const [Signin, setSignin]=useState(false);
   const [ErrorPassword, setErrorPassword]=useState(false);
-
-
-
   const handlerSubmit= async(e)=>{
     e.preventDefault();
-    if(username===''&&password===''&&confirm===''&&email===''){
+    if(e.target.username.value===''&&e.target.password.value===''&&e.target.confirm.value===''&&e.target.email.value===''){
       alert('please fill all field')
     }
-   else if(password!==confirm){
+   else if(e.target.password.value!==e.target.confirm.value){
     setErrorPassword(true);
 
     }
 
-   else if(password===confirm){
+   else if(e.target.password.value===e.target.confirm.value){
     const newUser={
-      username,
-      email, 
-      password,
+      username:e.target.username.value,
+      email:e.target.email.value,
+      password:e.target.password.value,
       userRole:e.target.userRole.value
     }
 
@@ -54,14 +51,14 @@ function SingUp() {
           <h2 >Create Account</h2>
           </div>
           <label>Usernmae</label>
-          <input type='text' onChange={(e)=>setUserName(e.target.value)}/>
+          <input type='text' id='username'/>
           <label>Email</label>
-          <input type='email' onChange={(e)=>setEmail(e.target.value)}/>
+          <input type='email' id='email'/>
           <label>password</label>
-          <input type='password' onChange={(e)=>setPassword(e.target.value)}/>
+          <input type='password' id='password'/>
           <label>confirm password</label>
           {ErrorPassword&&<p style={{color:'red'}}>password don't match</p>}
-          <input type='password' onChange={(e)=>setConfirm(e.target.value)}/>
+          <input type='password' id='confirm'/>
           <select placeholder='role' id='userRole'>
           <option value='user'>user</option>
           <option value='admin'>admin</option>
