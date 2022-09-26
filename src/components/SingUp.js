@@ -13,6 +13,7 @@ function SingUp() {
   const [ErrorPassword, setErrorPassword]=useState(false);
 
 
+
   const handlerSubmit= async(e)=>{
     e.preventDefault();
     if(username===''&&password===''&&confirm===''&&email===''){
@@ -27,15 +28,21 @@ function SingUp() {
     const newUser={
       username,
       email, 
-      password
+      password,
+      userRole:e.target.userRole.value
     }
-    await axios.post('https://seqlizer-server.herokuapp.com/signup',newUser).then(respone=>{
+
+    console.log("ROLE>>",newUser)
+    await axios.post('https://postgrees-srv.herokuapp.com/signup',newUser).then(respone=>{
       console.log("SING UP>>>",respone.data);
       setSignin(true);
       cookies.save('userId',respone.data.id);
       cookies.save('userName', respone.data.username);
       cookies.save('token',respone.data.token);
-      
+      cookies.save('userRole',respone.data.userRole);
+      cookies.save('capabilities',respone.data.capabilities);
+
+
     }).catch(error=>console.log(error));
   }
   }
@@ -55,6 +62,10 @@ function SingUp() {
           <label>confirm password</label>
           {ErrorPassword&&<p style={{color:'red'}}>password don't match</p>}
           <input type='password' onChange={(e)=>setConfirm(e.target.value)}/>
+          <select placeholder='role' id='userRole'>
+          <option value='user'>user</option>
+          <option value='admin'>admin</option>
+          </select>
           <button type='submit'>Submit</button>
         </form> 
     </div>

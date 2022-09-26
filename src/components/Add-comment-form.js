@@ -22,8 +22,8 @@ function Addcommentform({nameUser}) {
             username:cookies.load('userName')
 
         }
-     const res= await axios.post('https://seqlizer-server.herokuapp.com/comment',newComment)
-     console.log(res);
+     const res= await axios.post('https://postgrees-srv.herokuapp.com/comment',newComment)
+     console.log("from comments",res.data);
     
      setDescrption('');
      setNationlity('')
