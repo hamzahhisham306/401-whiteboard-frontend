@@ -16,7 +16,7 @@ function Addpostform({nameUser}) {
             ownerID:cookies.load('userId'),
         }
         console.log("new>>>",newPost);
-    await axios.post('http://localhost:5001/post',newPost,{
+    await axios.post('https://postgrees-srv.herokuapp.com/post',newPost,{
       headers:{
         Authorization:`Bearer ${cookies.load('token')} `
       }

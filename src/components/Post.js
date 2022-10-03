@@ -24,13 +24,13 @@ function Post() {
     const handleShow = () => setShow(true);
     const deletePost=async(id)=>{
       if(window.confirm("Are you sure to delete?")){
-        const res=await axios.delete(`http://localhost:5001/post/${id}`,{
+        const res=await axios.delete(`https://postgrees-srv.herokuapp.com/post/${id}`,{
           headers:{
             Authorization: `Bearer ${cookies.load('token')}`,
         }
         });
         console.log(res.data);
-        const resp=await axios.get('http://localhost:5001/postWitheComment');
+        const resp=await axios.get('https://postgrees-srv.herokuapp.com/postWitheComment');
         console.log(resp.data);
         setPost(resp.data);
       }
@@ -40,7 +40,7 @@ function Post() {
         
     }
     const getAllData=async()=>{
-        const res=await axios.get('http://localhost:5001/postWitheComment');
+        const res=await axios.get('https://postgrees-srv.herokuapp.com/postWitheComment');
         console.log(res.data);
         setPost(res.data);
         console.log("PSTO>>>>>",res.data)
@@ -51,7 +51,7 @@ function Post() {
         const handlerEdit=async(id)=>{
           setShow(true);
           console.log("from halder edit", typeof id);
-          await axios.get(`http://localhost:5001/post/${id}`).then((res)=>{
+          await axios.get(`https://postgrees-srv.herokuapp.com/post/${id}`).then((res)=>{
             setName(res.data.name);
             setAge(res.data.age);
             setId(res.data.id);
