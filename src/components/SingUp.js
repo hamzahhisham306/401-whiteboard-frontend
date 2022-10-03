@@ -26,7 +26,7 @@ function SingUp() {
     }
 
     console.log("ROLE>>",newUser)
-    await axios.post('http://localhost:5001/signup',newUser).then(respone=>{
+    await axios.post('https://postgrees-srv.herokuapp.com/signup',newUser).then(respone=>{
       console.log("SING UP>>>",respone.data);
       setSignin(true);
       cookies.save('userId',respone.data.id);

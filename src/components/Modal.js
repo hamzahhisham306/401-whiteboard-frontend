@@ -15,7 +15,7 @@ const hadlerUpdate=async(id)=>{
         age:updateAge,
         ownerID:cookies.load('userId'),
     }
-await axios.put(`http://localhost:5001/post/${id}`,data,{
+await axios.put(`https://postgrees-srv.herokuapp.com/post/${id}`,data,{
     headers:{
         Authorization: `Bearer ${cookies.load('token')}`,
     }

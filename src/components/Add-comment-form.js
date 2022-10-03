@@ -22,7 +22,7 @@ function Addcommentform({nameUser}) {
 
         }
         console.log("newComment>>>>>>>>>>",newComment)
-      await axios.post('http://localhost:5001/comment',newComment)    
+      await axios.post('https://postgrees-srv.herokuapp.com/comment',newComment)    
     e.target.reset();
      }
  
