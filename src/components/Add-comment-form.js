@@ -6,8 +6,7 @@ import Nav from './Nav';
 import cookies from 'react-cookies';
 function Addcommentform({nameUser}) {
     const {id}=useParams();
-    // const [descrption, setDescrption]=useState('');
-    // const [Nationality, setNationlity]=useState('');
+    
      
      const handlerSumit=async(e)=>{
         e.preventDefault();
@@ -23,7 +22,7 @@ function Addcommentform({nameUser}) {
 
         }
         console.log("newComment>>>>>>>>>>",newComment)
-      await axios.post('https://postgrees-srv.herokuapp.com/comment',newComment)    
+      await axios.post('http://localhost:5001/comment',newComment)    
     e.target.reset();
      }
  

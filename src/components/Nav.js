@@ -2,9 +2,10 @@ import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {  Link,  } from "react-router-dom";
 import cookies from 'react-cookies';
+import {useUserContext} from './Context';
 
-function ListExample( {handlerSign,nameUser}) {
-
+function ListExample() {
+const {handlerSign}=useUserContext();
   const handlerLogout=()=>{
         cookies.remove('token');
         cookies.remove('userName');
