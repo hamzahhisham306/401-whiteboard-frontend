@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import cookies from 'react-cookies';
 import ModalEdit from './Modal'
-function Post({isSign, handlerSign,nameUser}) {
+
+function Post() {
     const [allPostWithComment, setPost]=useState([]);
     const [show, setShow] = useState(false);
     const [name, setName]=useState('');
@@ -23,13 +24,13 @@ function Post({isSign, handlerSign,nameUser}) {
     const handleShow = () => setShow(true);
     const deletePost=async(id)=>{
       if(window.confirm("Are you sure to delete?")){
-        const res=await axios.delete(`https://postgrees-srv.herokuapp.com/post/${id}`,{
+        const res=await axios.delete(`http://localhost:5001/post/${id}`,{
           headers:{
             Authorization: `Bearer ${cookies.load('token')}`,
         }
         });
         console.log(res.data);
-        const resp=await axios.get('https://postgrees-srv.herokuapp.com/postWitheComment');
+        const resp=await axios.get('http://localhost:5001/postWitheComment');
         console.log(resp.data);
         setPost(resp.data);
       }
@@ -39,7 +40,7 @@ function Post({isSign, handlerSign,nameUser}) {
         
     }
     const getAllData=async()=>{
-        const res=await axios.get('https://postgrees-srv.herokuapp.com/postWitheComment');
+        const res=await axios.get('http://localhost:5001/postWitheComment');
         console.log(res.data);
         setPost(res.data);
         console.log("PSTO>>>>>",res.data)
@@ -50,7 +51,7 @@ function Post({isSign, handlerSign,nameUser}) {
         const handlerEdit=async(id)=>{
           setShow(true);
           console.log("from halder edit", typeof id);
-          await axios.get(`https://postgrees-srv.herokuapp.com/post/${id}`).then((res)=>{
+          await axios.get(`http://localhost:5001/post/${id}`).then((res)=>{
             setName(res.data.name);
             setAge(res.data.age);
             setId(res.data.id);
@@ -62,7 +63,7 @@ function Post({isSign, handlerSign,nameUser}) {
   
   return (
     <Container>
-          <Nav  handlerSign={handlerSign} isSign={isSign} nameUser={nameUser}  />
+          <Nav    />
          <Table striped bordered hover>
         <thead>
           <tr>
@@ -72,11 +73,10 @@ function Post({isSign, handlerSign,nameUser}) {
             <th>Nationality</th>
             <th>Name of User who add the comment</th>
             <th>Add Comment</th>
-            {cookies.load('userRole')==='admin'?<>
+            
             <th>Delete Post</th>
             <th>Edit Post</th>   
-            </> 
-            :''}
+          
         
 
           </tr>
@@ -109,7 +109,8 @@ function Post({isSign, handlerSign,nameUser}) {
             })}<br/>
             </td>
             <td><Link to={'/formComment/'+item.id}><button>add Comments</button></Link></td>
-            {cookies.load('userRole')==='admin'?<>
+            {console.log("SS", Number(cookies.load('userId')), item.id)}
+            {cookies.load('userRole')==='admin'||Number(cookies.load('userId'))===item.ownerID?<>
             <td><button onClick={()=>deletePost(item.id)}>Delete Post</button></td>
             <td><button onClick={()=>handlerEdit(item.id)} >Edit Post</button></td>
             <ModalEdit setPost={setPost} show={show}  handleClose={handleClose} handleShow={handleShow} name={name} age={age} id={id} getAllData={getAllData}/>
