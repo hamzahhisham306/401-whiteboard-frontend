@@ -20,7 +20,7 @@ function AppMain() {
       if(cookies.load('token')){
         setSign(true);
       }
-    },[]);
+    },[setSign]);
   return (
     <Container className="App">
       <Routes>
