@@ -3,10 +3,8 @@ import { Routes, Route, Link } from "react-router-dom";
 import Post from './Post'
 import {useUserContext} from './Context';
 
-
 function Signin( ) {
  const {ErrorPassword, handlerSubmit,isSign,message}=useUserContext();
- 
   return (
     <>
     {!isSign&&<div className='form-signup' >
@@ -15,9 +13,9 @@ function Signin( ) {
           <h2 >Login Form</h2>
           </div>
           <label>Username</label>
-          <input type='text' id='username'/>
+          <input type='text' id='username' data-testid='Name-input'/>
           <label>password</label>
-          <input type='password' id='password'/>
+          <input type='password' id='password'  data-testid='password-input'/>
           <label>confirm password</label>
           {ErrorPassword&&<p style={{color:'red'}}>password don't match</p>} 
           {message&&<p style={{color:'red'}}>Invalid login</p>} 

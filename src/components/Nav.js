@@ -3,32 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {  Link,  } from "react-router-dom";
 import cookies from 'react-cookies';
 import {useUserContext} from './Context';
-
 function ListExample() {
-const {handlerSign}=useUserContext();
-  const handlerLogout=()=>{
-        cookies.remove('token');
-        cookies.remove('userName');
-        cookies.remove('userId');
-        cookies.remove('userRole');
-        cookies.remove('capabilities')
-        handlerSign(false)
-
-  }
-
-
-
+const {handlerLogout,userInfo}=useUserContext();
+console.log(userInfo)
   return (
     <>
     <Nav defaultActiveKey="/home" as="ul" style={{marginBottom:'80px', marginTop:'30px', backgroundColor:'#1C6758', padding:'20px'}} >
       <Nav.Item as="li" style={{marginLeft:'25px' }}>
-      <Link to='/Post' style={{color:'#EEF2E6' ,textDecoration:'none'}}>Home</Link>
+      <Link to='/Post' style={{color:'#EEF2E6' ,textDecoration:'none'}} data-testid='Home'>Home</Link>
       </Nav.Item>
       <Nav.Item as="li" style={{marginLeft:'25px'}}>
-      <Link to='/formPost'style={{color:'#EEF2E6',textDecoration:'none'}}>Form Post</Link>   
+      <Link to='/formPost'style={{color:'#EEF2E6',textDecoration:'none'}} data-testid='form'>Form Post</Link>   
       </Nav.Item>
       <Nav.Item as="li" style={{marginLeft:'25px' }}>
-      <Link to='/'  style={{color:'#EEF2E6' ,textDecoration:'none'}} onClick={handlerLogout} >LogOut</Link>
+      <Link to='/'  style={{color:'#EEF2E6' ,textDecoration:'none'}} onClick={handlerLogout} data-testid='logout' >LogOut</Link>
       </Nav.Item>
       <Nav.Item as="li" style={{marginLeft:'25px'}}>
       <Link style={{color:'#EEF2E6',textDecoration:'none', backgroundColor:'#080808', padding:'10px', borderRadius:'8px'}}>Hi,  {cookies.load('userName')} </Link>   

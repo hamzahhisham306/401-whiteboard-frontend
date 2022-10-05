@@ -1,39 +1,22 @@
-import React from 'react'
-import axios from 'axios'
+import React ,{useContext}from 'react'
 import  Nav from './Nav';
 import Footer from './Footer';
-import cookies from 'react-cookies'
-function Addpostform({nameUser}) {
-  
+import {userApi} from './UserDataContext';
+function Addpostform() {
+  const {handlerSumitPost}=useContext(userApi);
    
      
-     const handlerSumit=async(e)=>{
-        e.preventDefault();
-
-        const newPost={
-            name:e.target.name.value,
-            age:e.target.age.value,
-            ownerID:cookies.load('userId'),
-        }
-        console.log("new>>>",newPost);
-    await axios.post('https://postgrees-srv.herokuapp.com/post',newPost,{
-      headers:{
-        Authorization:`Bearer ${cookies.load('token')} `
-      }
-     })
-     e.target.reset();
-    
-     }
 
   return (
     <div>
-        <Nav nameUser={nameUser}/>
-   <form className='create' onSubmit={handlerSumit}>
+        <Nav />
+   <form className='create' onSubmit={handlerSumitPost}>
         <h3 style={{color:'#D6CDA4'}}>Form Post</h3>
         <label style={{color:'#EEF2E6'}}>name</label>
         <input
         id='name'
          type='text'
+         data-testid='Name-input'
         />
         <label style={{color:'#EEF2E6'}}>age</label>
         <input
