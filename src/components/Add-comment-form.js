@@ -6,13 +6,8 @@ import Nav from './Nav';
 import cookies from 'react-cookies';
 function Addcommentform({nameUser}) {
     const {id}=useParams();
-    
-     
      const handlerSumit=async(e)=>{
         e.preventDefault();
-    
-     
-    
         const newComment={
             descrption:e.target.descrption.value,
             Nationality:e.target.Nationality.value,

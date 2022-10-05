@@ -10,6 +10,14 @@ const UserContextProvider=props=>{
  const [isSign, setSign]= useState(false);
  const [ErrorPassword, setErrorPassword]=useState(false);
  const [message, setMessage]=useState(false);
+ const [canDoit, setDo]=useState(false);
+ const [userInfo ,setUser]=useState({
+  userId:'',
+  userName:'',
+  token:'',
+  capabilities:[],
+  userRole:''
+ })
 
 
  const handlerSign=(boll)=>{
@@ -41,6 +49,14 @@ const UserContextProvider=props=>{
             cookies.save('token',res.data.token);
             cookies.save('capabilities',res.data.capabilities);
             cookies.save('userRole',res.data.userRole);   
+
+            setUser({
+              userId:res.data.id,
+              userName:res.data.username,
+              token:res.data.token,
+              capabilities:[res.data.capabilities],
+              userRole:res.data.userRole
+            })
         handlerSign(true);
            setErrorPassword(false);
            setMessage(false);
@@ -50,8 +66,31 @@ const UserContextProvider=props=>{
         });
         }
      }
+     const handlerLogout=()=>{
+      cookies.remove('token');
+      cookies.remove('userName');
+      cookies.remove('userId');
+      cookies.remove('userRole');
+      cookies.remove('capabilities');
+      setUser({
+        userId:'',
+        userName:'',
+        token:'',
+        capabilities:'',
+        userRole:''
+      })
+      handlerSign(false)
+}
+const canDo=()=>{
+  if(cookies.load('userRole')==='admin'){
+    setDo(true);
+  }
+  else{
+    setDo(false);
+  }
+}
   return (
-   <UserContext.Provider value={{ErrorPassword, handlerSubmit,isSign,message,handlerSign,setSign}}>
+   <UserContext.Provider value={{ErrorPassword,userInfo, handlerSubmit,isSign,message,handlerSign,setSign, handlerLogout,canDo,canDoit}}>
          {props.children}
    </UserContext.Provider>
   )
