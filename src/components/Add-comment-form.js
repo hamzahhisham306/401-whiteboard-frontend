@@ -16,7 +16,6 @@ function Addcommentform({nameUser}) {
             username:cookies.load('userName')
 
         }
-        console.log("newComment>>>>>>>>>>",newComment)
       await axios.post('https://postgrees-srv.herokuapp.com/comment',newComment)    
     e.target.reset();
      }
