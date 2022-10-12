@@ -4,47 +4,44 @@ import { useParams } from 'react-router-dom'
 import Footer from './Footer';
 import Nav from './Nav';
 import cookies from 'react-cookies';
-function Addcommentform({nameUser}) {
-    const {id}=useParams();
-     const handlerSumit=async(e)=>{
-        e.preventDefault();
-        const newComment={
-            descrption:e.target.descrption.value,
-            Nationality:e.target.Nationality.value,
-            postID:Number(id),
-            userID:Number(cookies.load('userId')),
-            username:cookies.load('userName')
 
-        }
-      await axios.post('https://postgrees-srv.herokuapp.com/comment',newComment)    
+function Addcommentform({ nameUser }) {
+  const { id } = useParams();
+  const handlerSumitComment = async (e) => {
+    e.preventDefault();
+    const newComment = {
+      descrption: e.target.descrption.value,
+      Nationality: e.target.Nationality.value,
+      postID: Number(id),
+      userID: Number(cookies.load('userId')),
+      username: cookies.load('userName')
+
+    }
+    await axios.post('https://postgrees-srv.herokuapp.com/comment', newComment)
     e.target.reset();
-     }
- 
+  }
+
   return (
     <div>
-        <Nav nameUser={nameUser}/>
-    <form className='create' onSubmit={handlerSumit}>
-         <h3 style={{color:'#D6CDA4'}}>Form Comment</h3>
-         <label style={{color:'#EEF2E6'}}>descrption</label>
-         <input
+      <Nav nameUser={nameUser} />
+      <form className='create' onSubmit={handlerSumitComment}>
+        <h3 style={{ color: '#D6CDA4' }}>Form Comment</h3>
+        <label style={{ color: '#EEF2E6' }}>descrption</label>
+        <input
           type='text'
-         id='descrption'
-         />
-         <label style={{color:'#EEF2E6'}} >Nationality</label>
-         <input
-         type='text'
-         id='Nationality'
-         />
-         <label style={{color:'#EEF2E6'}}>id Post</label>
-         <input
-         type='number'
-         defaultValue={Number(id)}
-         />
-         <button type='submit'>Sumit</button>
- 
-     </form>    
-     <Footer/>
-     </div>
+          id='descrption'
+        />
+        <label style={{ color: '#EEF2E6' }} >Nationality</label>
+        <input
+          type='text'
+          id='Nationality'
+        />
+
+        <button type='submit'>Sumit</button>
+
+      </form>
+      <Footer />
+    </div>
   )
 }
 

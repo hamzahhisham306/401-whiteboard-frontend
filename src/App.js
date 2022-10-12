@@ -4,10 +4,10 @@ import AppMain from './AppMain';
 
 
 function App() {
- 
+
   return (
     <UserContextProvider>
-    <AppMain/>
+      <AppMain />
     </UserContextProvider>
   );
 }
