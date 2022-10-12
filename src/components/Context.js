@@ -1,98 +1,71 @@
-import React,{createContext, useContext, useState} from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import cookies from 'react-cookies';
-import axios from 'axios';
 import base64 from 'base-64';
+import { authReducer } from './reducer/authReducer';
+import { AuthState } from './actions/AuthAction';
+import { AuthAction } from './actions/AuthAction';
+import { handlerLogin, logout, handlerSigUP } from './postMethod/AuthMethod';
+const UserContext = createContext();
+export const useUserContext = () => useContext(UserContext);
 
-const UserContext=createContext();
-export const useUserContext=()=>useContext(UserContext);
-
-const UserContextProvider=props=>{
- const [isSign, setSign]= useState(false);
- const [ErrorPassword, setErrorPassword]=useState(false);
- const [message, setMessage]=useState(false);
- const [canDoit, setDo]=useState(false);
- const [userInfo ,setUser]=useState({
-  userId:'',
-  userName:'',
-  token:'',
-  capabilities:[],
-  userRole:''
- })
+const UserContextProvider = props => {
+  const [stateAuth, dispatch2] = useReducer(authReducer, AuthState);
 
 
- const handlerSign=(boll)=>{
-    setSign(boll);
-        
-  };
-    const handlerSubmit=async(e)=>{
-        e.preventDefault();
-        if(e.target.username.value===''||e.target.password.value===''||e.target.confirm.value===''){
-          alert('please fill all field')
-        }
-        else if(e.target.password.value!==e.target.confirm.value){
-          setErrorPassword(true);
-        }
-        else if(e.target.password.value===e.target.confirm.value){
-            const user={
-                username:e.target.username.value,
-                password:e.target.password.value
-              };
-            const encoded=base64.encode(`${user.username}:${user.password}`)
-        await axios.post('https://postgrees-srv.herokuapp.com/signin',{},{
-            headers:{
-                Authorization: `Basic ${encoded}`,
-            }
-        }).then(res=>{
-            console.log("TOKEN>>",res.data);
-            cookies.save('userId',res.data.id);
-            cookies.save('userName', res.data.username);
-            cookies.save('token',res.data.token);
-            cookies.save('capabilities',res.data.capabilities);
-            cookies.save('userRole',res.data.userRole);   
-
-            setUser({
-              userId:res.data.id,
-              userName:res.data.username,
-              token:res.data.token,
-              capabilities:[res.data.capabilities],
-              userRole:res.data.userRole
-            })
-        handlerSign(true);
-           setErrorPassword(false);
-           setMessage(false);
-        }).catch(error=>{
-            console.log(error)
-            setMessage(true);
-        });
-        }
-     }
-     const handlerLogout=()=>{
-      cookies.remove('token');
-      cookies.remove('userName');
-      cookies.remove('userId');
-      cookies.remove('userRole');
-      cookies.remove('capabilities');
-      setUser({
-        userId:'',
-        userName:'',
-        token:'',
-        capabilities:'',
-        userRole:''
-      })
-      handlerSign(false)
-}
-const canDo=()=>{
-  if(cookies.load('userRole')==='admin'){
-    setDo(true);
+  const handlerSubmit = async (e) => {
+    e.preventDefault();
+    if (e.target.username.value === '' || e.target.password.value === '' || e.target.confirm.value === '') {
+      alert('please fill all field')
+    }
+    else if (e.target.password.value !== e.target.confirm.value) {
+      dispatch2({ type: AuthAction.ERROR_PASS });
+    }
+    else if (e.target.password.value === e.target.confirm.value) {
+      const user = {
+        username: e.target.username.value,
+        password: e.target.password.value
+      };
+      const encoded = base64.encode(`${user.username}:${user.password}`)
+      handlerLogin(dispatch2, encoded);
+    }
   }
-  else{
-    setDo(false);
+  const handlerLogout = () => {
+    logout(dispatch2);
   }
-}
+  const canDo = () => {
+    if (cookies.load('userRole') === 'admin') {
+      dispatch2({ tyep: AuthAction.CAN_DO_IT })
+    }
+    else {
+      dispatch2({ type: AuthAction.CAN_NOT_DO });
+    }
+  }
+  const handlerSignUp = async (e) => {
+    e.preventDefault();
+    if (e.target.username.value === '' && e.target.password.value === '' && e.target.confirm.value === '' && e.target.email.value === '') {
+      alert('please fill all field')
+    }
+    else if (e.target.password.value !== e.target.confirm.value) {
+      dispatch2({ type: AuthAction.ERROR_PASS });
+
+    }
+
+    else if (e.target.password.value === e.target.confirm.value) {
+      const newUser = {
+        username: e.target.username.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+        userRole: e.target.userRole.value
+      }
+      handlerSigUP(dispatch2, newUser);
+
+    }
+  }
+
   return (
-   <UserContext.Provider value={{ErrorPassword,userInfo, handlerSubmit,isSign,message,handlerSign,setSign, handlerLogout,canDo,canDoit}}>
-         {props.children}
-   </UserContext.Provider>
+    <UserContext.Provider value={{ stateAuth, dispatch2, canDo, handlerSignUp, handlerSubmit, handlerLogout }}>
+      {props.children}
+    </UserContext.Provider>
   )
 }
 
