@@ -4,7 +4,14 @@ import { useParams } from 'react-router-dom'
 import Footer from './Footer';
 import Nav from './Nav';
 import cookies from 'react-cookies';
+import {
+  FormControl,
+  FormLabel,
+  Input,
 
+
+} from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react'
 function Addcommentform({ nameUser }) {
   const { id } = useParams();
   const handlerSumitComment = async (e) => {
@@ -24,21 +31,28 @@ function Addcommentform({ nameUser }) {
   return (
     <div>
       <Nav nameUser={nameUser} />
-      <form className='create' onSubmit={handlerSumitComment}>
+      <form onSubmit={handlerSumitComment} >
         <h3 style={{ color: '#D6CDA4' }}>Form Comment</h3>
-        <label style={{ color: '#EEF2E6' }}>descrption</label>
-        <input
-          type='text'
-          id='descrption'
-        />
-        <label style={{ color: '#EEF2E6' }} >Nationality</label>
-        <input
-          type='text'
-          id='Nationality'
-        />
+        <FormControl >
+          <FormLabel htmlFor='name' color='#fff'>descrption</FormLabel>
+          <Input
+            id='descrption'
+            placeholder='descrption'
+            type='text'
+            backgroundColor='#fff'
+          />
+          <FormLabel htmlFor='name' color='#fff'>Nationality</FormLabel>
+          <Input
+            id='Nationality'
+            placeholder='Nationality'
+            type='text'
+            backgroundColor='#fff'
 
-        <button type='submit'>Sumit</button>
-
+          />
+        </FormControl>
+        <Button mt={4} colorScheme='teal' type='submit'>
+          Submit
+        </Button>
       </form>
       <Footer />
     </div>

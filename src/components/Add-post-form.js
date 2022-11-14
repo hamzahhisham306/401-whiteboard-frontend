@@ -2,6 +2,14 @@ import React, { useContext } from 'react'
 import Nav from './Nav';
 import Footer from './Footer';
 import { userApi } from './UserDataContext';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  
+
+} from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react'
 function Addpostform() {
   const { handlerSumitPost } = useContext(userApi);
 
@@ -10,24 +18,29 @@ function Addpostform() {
   return (
     <div>
       <Nav />
-      <form className='create' onSubmit={handlerSumitPost}>
-        <h3 style={{ color: '#D6CDA4' }}>Form Post</h3>
-        <label style={{ color: '#EEF2E6' }}>name</label>
-        <input
+      <form onSubmit={handlerSumitPost}>
+      <FormControl >
+        <FormLabel htmlFor='name' color='#fff'>First name</FormLabel>
+        <Input
           id='name'
+          placeholder='name'
           type='text'
-          data-testid='Name-input'
+          backgroundColor='#fff'
         />
-        <label style={{ color: '#EEF2E6' }}>age</label>
-        <input
-          type='number'
-          max='130'
-          min='0'
+    <FormLabel htmlFor='name' color='#fff'>age</FormLabel>
+        <Input
           id='age'
-        />
-        <button type='submit'>Sumit</button>
+          placeholder='age'
+          type='number'
+          backgroundColor='#fff'
 
-      </form>
+        />
+      </FormControl>
+      <Button mt={4} colorScheme='teal'  type='submit'>
+        Submit
+      </Button>
+    </form>
+
       <Footer />
     </div>
   )
