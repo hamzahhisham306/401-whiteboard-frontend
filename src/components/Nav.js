@@ -1,31 +1,22 @@
-import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link, } from "react-router-dom";
+import { Link } from "react-router-dom";
 import cookies from 'react-cookies';
 import { useUserContext } from './Context';
+import {
+  ListItem,
+  UnorderedList,
+} from '@chakra-ui/react';
 function ListExample() {
   const { handlerLogout } = useUserContext();
   return (
     <>
-      <Nav defaultActiveKey="/home" as="ul" style={{ marginBottom: '80px', marginTop: '30px', backgroundColor: '#1C6758', padding: '20px' }} >
-        <Nav.Item as="li" style={{ marginLeft: '25px' }}>
-          <Link to='/Post' style={{ color: '#EEF2E6', textDecoration: 'none' }} data-testid='Home'>Home</Link>
-        </Nav.Item>
-        <Nav.Item as="li" style={{ marginLeft: '25px' }}>
-          <Link to='/formPost' style={{ color: '#EEF2E6', textDecoration: 'none' }} data-testid='form'>Form Post</Link>
-        </Nav.Item>
-        <Nav.Item as="li" style={{ marginLeft: '25px' }}>
-          <Link to='/' style={{ color: '#EEF2E6', textDecoration: 'none' }} onClick={handlerLogout} data-testid='logout' >LogOut</Link>
-        </Nav.Item>
-        <Nav.Item as="li" style={{ marginLeft: '25px' }}>
-          <Link style={{ color: '#EEF2E6', textDecoration: 'none', backgroundColor: '#080808', padding: '10px', borderRadius: '8px' }}>Hi,  {cookies.load('userName')} </Link>
-        </Nav.Item>
-        <Nav.Item as="li" style={{ marginLeft: '25px' }}>
-          <Link style={{ color: '#EEF2E6', textDecoration: 'none' }}>Contact Us</Link>
-        </Nav.Item>
-      </Nav>
-
-
+      <UnorderedList display='flex' transition='0.5s' listStyleType='none' paddingTop='100px' paddingBottom='50px' color='#fff'>
+        <Link to='/Post'><ListItem marginLeft='20px'>Home</ListItem></Link>
+        <Link to='/formPost'><ListItem marginLeft='20px'>Form Post</ListItem></Link>
+        <Link to='/'><ListItem marginLeft='20px' onClick={handlerLogout} >LogOut</ListItem></Link>
+        <ListItem marginLeft='20px'>Hi,  {cookies.load('userName')} </ListItem>
+        <ListItem marginLeft='20px'>  Contact Us </ListItem>
+      </UnorderedList>
     </>
 
   );

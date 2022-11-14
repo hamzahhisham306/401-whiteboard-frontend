@@ -2,30 +2,60 @@ import React from 'react'
 import { Routes, Route, Link } from "react-router-dom";
 import Post from './Post'
 import { useUserContext } from './Context';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  
 
+} from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react'
 function Signin() {
   const { handlerSubmit,stateAuth } = useUserContext();
   
   return (
     <>
-      {!stateAuth.isLogin && <div className='form-signup' >
-        <form className='signup-form' onSubmit={handlerSubmit}>
-          <div className='title'>
-            <h2 >Login Form</h2>
-          </div>
-          <label>Username</label>
-          <input type='text' id='username' data-testid='Name-input' />
-          <label>password</label>
-          <input type='password' id='password' data-testid='password-input' />
-          <label>confirm password</label>
-          {stateAuth.errorPassword && <p style={{ color: 'red' }}>password don't match</p>}
+      {!stateAuth.isLogin&&
+      <div className='form-signup' style={{paddingTop:'150px', display:'flex', justifyContent:'center'}} >
+       <form  onSubmit={handlerSubmit} >
+      <h2 style={{ color: '#D6CDA4' }}>Login Form</h2>
+      <FormControl >
+        <FormLabel htmlFor='name' color='#fff'>Username</FormLabel>
+        <Input
+          id='username'
+          placeholder='username'
+          type='text'
+          backgroundColor='#fff'
+          width='600px'
+        />
+    <FormLabel htmlFor='name' color='#fff'>password</FormLabel>
+        <Input
+          id='password'
+          placeholder='password'
+          type='password'
+          backgroundColor='#fff'
+          width='600px'
+        />
+           <FormLabel htmlFor='name' color='#fff'>confirm password</FormLabel>
+           {stateAuth.errorPassword && <p style={{ color: 'red' }}>password don't match</p>}
           {stateAuth.message && <p style={{ color: 'red' }}>Invalid login</p>}
-          <input type='password' id='confirm' />
-          <button type='submit'>Submit</button>
-        </form>
-        <Link to='/SingUp'><button style={{ display: 'block', margin: 'auto', padding: '20px', textDecoration: 'none' }}>Sign Up</button></Link>
-      </div>
-      }
+        <Input
+          id='confirm'
+          placeholder='password'
+          type='password'
+          backgroundColor='#fff'
+          width='600px'
+
+
+        />
+      </FormControl>
+      <Button mt={4} colorScheme='teal'  type='submit'>
+        Submit
+      </Button>
+      <Link to='/SingUp'><Button mt={4} colorScheme='teal' display='block' >Sign Up</Button></Link>
+
+    </form>
+    </div>}
       {stateAuth.isLogin && <Routes>
         <Route
           path='/'
