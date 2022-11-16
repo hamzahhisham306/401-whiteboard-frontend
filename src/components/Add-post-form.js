@@ -9,7 +9,8 @@ import {
   
 
 } from '@chakra-ui/react';
-import { Button } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react';
+
 function Addpostform() {
   const { handlerSumitPost } = useContext(userApi);
 
@@ -20,14 +21,14 @@ function Addpostform() {
       <Nav />
       <form onSubmit={handlerSumitPost}>
       <FormControl >
-        <FormLabel htmlFor='name' color='#fff'>First name</FormLabel>
+        <FormLabel htmlFor='name' color='#fff'  textStyle='lableStyle'  fontSize='30px'>First name</FormLabel>
         <Input
           id='name'
           placeholder='name'
           type='text'
           backgroundColor='#fff'
         />
-    <FormLabel htmlFor='name' color='#fff'>age</FormLabel>
+    <FormLabel htmlFor='name' color='#fff'  textStyle='lableStyle'  fontSize='30px'>age</FormLabel>
         <Input
           id='age'
           placeholder='age'

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Link } from "react-router-dom";
-import Post from './Post'
+import Post from './Post';
+
 import { useUserContext } from './Context';
 import {
   FormControl,
@@ -9,18 +10,21 @@ import {
   
 
 } from '@chakra-ui/react';
-import { Button } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react'
+
 function Signin() {
   const { handlerSubmit,stateAuth } = useUserContext();
-  
+
   return (
     <>
       {!stateAuth.isLogin&&
       <div className='form-signup' style={{paddingTop:'150px', display:'flex', justifyContent:'center'}} >
        <form  onSubmit={handlerSubmit} >
-      <h2 style={{ color: '#D6CDA4' }}>Login Form</h2>
+  
+      <Heading  textStyle='title' style={{ color: '#D6CDA4', paddingBottom:'30px' }}>Login Form</Heading>
       <FormControl >
-        <FormLabel htmlFor='name' color='#fff'>Username</FormLabel>
+        <FormLabel textStyle='lableStyle'  fontSize='30px' htmlFor='name' color='#fff'>Username</FormLabel>
         <Input
           id='username'
           placeholder='username'
@@ -28,7 +32,7 @@ function Signin() {
           backgroundColor='#fff'
           width='600px'
         />
-    <FormLabel htmlFor='name' color='#fff'>password</FormLabel>
+    <FormLabel textStyle='lableStyle'  fontSize='30px' htmlFor='name' color='#fff'>password</FormLabel>
         <Input
           id='password'
           placeholder='password'
@@ -36,7 +40,7 @@ function Signin() {
           backgroundColor='#fff'
           width='600px'
         />
-           <FormLabel htmlFor='name' color='#fff'>confirm password</FormLabel>
+           <FormLabel textStyle='lableStyle'  fontSize='30px' htmlFor='name' color='#fff'>confirm password</FormLabel>
            {stateAuth.errorPassword && <p style={{ color: 'red' }}>password don't match</p>}
           {stateAuth.message && <p style={{ color: 'red' }}>Invalid login</p>}
         <Input
@@ -49,7 +53,7 @@ function Signin() {
 
         />
       </FormControl>
-      <Button mt={4} colorScheme='teal'  type='submit'>
+      <Button mt={4} colorScheme='teal'   variant={['sm', 'md', 'lg']} type='submit'>
         Submit
       </Button>
       <Link to='/SingUp'><Button mt={4} colorScheme='teal' display='block' >Sign Up</Button></Link>

@@ -39,22 +39,22 @@ function Post() {
         <TableCaption color='#D6CDA4'>Imperial to metric conversion factors</TableCaption>
         <Thead>
           <Tr >
-            <Th color='#D6CDA4'>First Name</Th>
-            <Th isNumeric color='#D6CDA4'>age</Th>
-            <Th color='#D6CDA4'>descrption</Th>
-            <Th color='#D6CDA4'>Nationality</Th>
-            <Th color='#D6CDA4'>Name of User who add the comment</Th>
-            <Th color='#D6CDA4' >Add Comment</Th>
-            <Th color='#D6CDA4'>Delete Post</Th>
-            <Th color='#D6CDA4'>Edit Post</Th>
+            <Th textStyle='liText' color='#D6CDA4' fontSize='15px' letterSpacing='2px'>First Name</Th>
+            <Th textStyle='liText' isNumeric color='#D6CDA4' fontSize='15px' letterSpacing='2px'>age</Th>
+            <Th color='#D6CDA4' fontSize='15px' letterSpacing='2px'>descrption</Th>
+            <Th color='#D6CDA4' fontSize='15px' letterSpacing='2px'>Nationality</Th>
+            <Th color='#D6CDA4' fontSize='15px' letterSpacing='2px'>Name of User who add the comment</Th>
+            <Th color='#D6CDA4' fontSize='15px' letterSpacing='2px'>Add Comment</Th>
+            <Th color='#D6CDA4' fontSize='15px' letterSpacing='2px'>Delete Post</Th>
+            <Th color='#D6CDA4' fontSize='15px' letterSpacing='2px'>Edit Post</Th>
           </Tr>
         </Thead>
         {state && state.map((item, index) => {
           return <Tbody key={item.id}>
             <Tr>
-              <Td>{item.name}</Td>
-              <Td>{item.age}</Td>
-              <Td >{item.usercomms?.map((data) => {
+              <Td textStyle='liText'>{item.name}</Td>
+              <Td textStyle='liText'>{item.age}</Td>
+              <Td textStyle='liText'>{item.usercomms?.map((data) => {
                 return (<li key={Math.floor(Math.random() * 1000)} style={{ listStyleType: 'none', marginBottom: '-15px' }} >
 
                   {data.descrption}
@@ -62,7 +62,7 @@ function Post() {
                 )
               })}<br />
               </Td>
-              <Td>
+              <Td textStyle='liText'>
                 {item.usercomms?.map((data) => {
                   return (<li key={Math.floor(Math.random() * 1000)} style={{ listStyleType: 'none', marginBottom: '-15px' }} >
                     {data.Nationality}
@@ -70,7 +70,7 @@ function Post() {
                   )
                 })}<br />
               </Td>
-              <Td>
+              <Td textStyle='liText'>
                 {item.usercomms?.map((data) => {
                   return (<li key={Math.floor(Math.random() * 1000)} style={{ listStyleType: 'none', marginBottom: '-15px' }}>
                     {data.username}
