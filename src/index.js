@@ -5,15 +5,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import UserMethodApi from './components/UserDataContext';
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme, ColorModeScript  } from '@chakra-ui/react';
+import { myTheme } from './components/theme/theme'
+const config = {
+  initialColorMode: 'light',
+  useSystemColorMode: false,
+}
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const theme = extendTheme({ config })
 root.render(
   <BrowserRouter>
-  <UserMethodApi>
-    <ChakraProvider>
-    <App />
-    </ChakraProvider>
+    <UserMethodApi>
+      <ChakraProvider theme={myTheme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <App />
+      </ChakraProvider>
     </UserMethodApi>
   </BrowserRouter>
 );

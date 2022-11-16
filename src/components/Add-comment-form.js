@@ -11,7 +11,9 @@ import {
 
 
 } from '@chakra-ui/react';
-import { Button } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react'
+
 function Addcommentform({ nameUser }) {
   const { id } = useParams();
   const handlerSumitComment = async (e) => {
@@ -32,16 +34,16 @@ function Addcommentform({ nameUser }) {
     <div>
       <Nav nameUser={nameUser} />
       <form onSubmit={handlerSumitComment} >
-        <h3 style={{ color: '#D6CDA4' }}>Form Comment</h3>
+        <Heading style={{ color: '#D6CDA4' }}  textStyle='title'>Form Comment</Heading>
         <FormControl >
-          <FormLabel htmlFor='name' color='#fff'>descrption</FormLabel>
+          <FormLabel htmlFor='name' color='#fff'  textStyle='lableStyle'  fontSize='30px'>descrption</FormLabel>
           <Input
             id='descrption'
             placeholder='descrption'
             type='text'
             backgroundColor='#fff'
           />
-          <FormLabel htmlFor='name' color='#fff'>Nationality</FormLabel>
+          <FormLabel htmlFor='name' color='#fff'  textStyle='lableStyle'  fontSize='30px'>Nationality</FormLabel>
           <Input
             id='Nationality'
             placeholder='Nationality'
