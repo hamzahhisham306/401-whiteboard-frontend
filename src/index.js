@@ -5,8 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import UserMethodApi from './components/UserDataContext';
-import { ChakraProvider, extendTheme, ColorModeScript  } from '@chakra-ui/react';
-import { myTheme } from './components/theme/theme'
+import { ChakraProvider, extendTheme, ColorModeScript } from '@chakra-ui/react';
+import { myTheme } from './components/theme/theme';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 const config = {
   initialColorMode: 'light',
   useSystemColorMode: false,
@@ -17,12 +19,14 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const theme = extendTheme({ config })
 root.render(
   <BrowserRouter>
+  <Provider store={store}>
     <UserMethodApi>
       <ChakraProvider theme={myTheme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <App />
       </ChakraProvider>
     </UserMethodApi>
+    </Provider>
   </BrowserRouter>
 );
 
