@@ -23,7 +23,8 @@ import { Button } from '@chakra-ui/react'
 /* istanbul ignore next */
 function Post() {
   const { stateAuth } = useUserContext();
-  const { handleShow, handlerEdit, deletePost, helper, handleClose, setPost, getAllData, state } = useContext(userApi);
+  const { handleShow, handlerEdit, deletePost, helper, handleClose, setPost, getAllData,posts } = useContext(userApi);
+  
 
   useEffect(() => {
     getAllData();
@@ -49,7 +50,7 @@ function Post() {
             <Th color='#D6CDA4' fontSize='15px' letterSpacing='2px'>Edit Post</Th>
           </Tr>
         </Thead>
-        {state && state.map((item, index) => {
+        {posts && posts.map((item, index) => {
           return <Tbody key={item.id}>
             <Tr>
               <Td textStyle='liText'>{item.name}</Td>

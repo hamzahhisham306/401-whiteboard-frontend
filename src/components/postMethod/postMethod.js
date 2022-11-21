@@ -1,10 +1,11 @@
-import { postAction } from '../actions/postAction';
 import * as api from '../apiAxios/index';
+import { addPost, deletePost, getPosts } from '../../store/post';
+
 
 export const getData = async (dispatch) => {
     try {
         const res = await api.fetchPosts();
-        dispatch({ type: postAction.GET_POST, payload: res.data });
+        dispatch(getPosts(res.data))
     }
     catch (e) {
         console.log(e);
@@ -15,7 +16,7 @@ export const AddPost = async (dispatch, data) => {
     try {
         await api.createPost(data)
             .then(res => {
-                dispatch({ type: postAction.ADD_POST, payload: res.data });
+                dispatch(addPost(res.data));
             })
     } catch (error) {
         console.log(error);
@@ -24,6 +25,13 @@ export const AddPost = async (dispatch, data) => {
 
 
 export const deleteSelectedPost = async (dispatch, id) => {
-    await api.deletePost(id);
-    dispatch({ type: postAction.DELET_POST, payload: id });
+    try {
+
+        await api.deletePost(id);
+        dispatch(deletePost(id));
+        const res = await api.fetchPosts();
+        dispatch(getPosts(res.data))
+    } catch (error) {
+        console.log(error);
+    }
 }
