@@ -8,16 +8,14 @@ import Signin from './components/Signin';
 import Post from './components/Post';
 import { useEffect } from 'react';
 import cookies from 'react-cookies';
-import { useUserContext } from './components/Context';
-import { AuthAction } from './components/actions/AuthAction';
+
+import { LOGIN_SUCCESS} from '../src/store/redux';
+import { useDispatch } from 'react-redux';
 function AppMain() {
-
-  const { dispatch2 } = useUserContext();
-
-
+  const dispatch=useDispatch();
   useEffect(() => {
     if (cookies.load('token')) {
-      dispatch2({ type: AuthAction.KEEP_LOGIN })
+      dispatch(LOGIN_SUCCESS());
     }
   }, []);
   return (

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Routes, Route, Link } from "react-router-dom";
 import Post from './Post';
-
 import { useUserContext } from './Context';
 import {
   FormControl,
@@ -10,13 +9,15 @@ import {
 } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 import { Heading } from '@chakra-ui/react'
-
+import {stateRedux} from '../store/redux';
+import { useSelector } from 'react-redux';
 function Signin() {
-  const { handlerSubmit,stateAuth } = useUserContext();
+  const { handlerSubmit } = useUserContext();
+  const stateAuthRedux = useSelector(stateRedux);
 
   return (
     <>
-      {!stateAuth.isLogin&&
+      {!stateAuthRedux.isLogin&&
       <div className='form-signup' style={{paddingTop:'150px', display:'flex', justifyContent:'center'}} >
        <form  onSubmit={handlerSubmit} >
   
@@ -39,8 +40,8 @@ function Signin() {
           width='600px'
         />
            <FormLabel textStyle='lableStyle'  fontSize='30px' htmlFor='name' color='#fff'>confirm password</FormLabel>
-           {stateAuth.errorPassword && <p style={{ color: 'red' }}>password don't match</p>}
-          {stateAuth.message && <p style={{ color: 'red' }}>Invalid login</p>}
+           {stateAuthRedux.errorPassword && <p style={{ color: 'red' }}>password don't match</p>}
+          {stateAuthRedux.message && <p style={{ color: 'red' }}>Invalid login</p>}
         <Input
           id='confirm'
           placeholder='password'
@@ -58,7 +59,7 @@ function Signin() {
 
     </form>
     </div>}
-      {stateAuth.isLogin && <Routes>
+      {stateAuthRedux.isLogin && <Routes>
         <Route
           path='/'
           element={<Post />}

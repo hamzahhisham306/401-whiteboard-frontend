@@ -27,7 +27,7 @@ function ModalEdit(props) {
 
   return (
     <>
-      <Modal show={props.helper.show} onHide={props.handleClose} animation={false}>
+      <Modal show={props.helper} onHide={props.handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Post</Modal.Title>
         </Modal.Header>

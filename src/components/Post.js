@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-// import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Nav from './Nav'
@@ -7,8 +6,9 @@ import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import cookies from 'react-cookies';
 import ModalEdit from './Modal'
-import { useUserContext } from './Context';
 import { userApi } from './UserDataContext';
+import { stateRedux } from '../store/redux';
+import { useSelector } from 'react-redux';
 import {
   Table,
   Thead,
@@ -19,12 +19,15 @@ import {
   TableCaption,
 } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react'
-
+import { stateHelper } from '../store/helper';
 /* istanbul ignore next */
 function Post() {
-  const { stateAuth } = useUserContext();
-  const { handleShow, handlerEdit, deletePost, helper, handleClose, setPost, getAllData,posts } = useContext(userApi);
-  
+  const stateAuthRedux = useSelector(stateRedux);
+  const helperState = useSelector(stateHelper);
+  console.log(helperState);
+
+  const { handleShow, handlerEdit, deletePost, handleClose, setPost, getAllData, posts } = useContext(userApi);
+
 
   useEffect(() => {
     getAllData();
@@ -80,10 +83,13 @@ function Post() {
                 })}<br />
               </Td>
               <Td><Link to={'/formComment/' + item.id}><Button colorScheme='teal' variant='solid'>add Comments</Button></Link></Td>
-              {stateAuth.canDO || Number(cookies.load('userId')) === item.ownerID || cookies.load('userRole') === 'admin' ? <>
+              {stateAuthRedux.canDO || Number(cookies.load('userId')) === item.ownerID || cookies.load('userRole') === 'admin' ? <>
                 <Td><Button onClick={() => deletePost(item.id)} colorScheme='teal' variant='solid'>Delete Post</Button></Td>
-                <Td><Button onClick={() => handlerEdit(item.id)} colorScheme='teal' variant='solid'>Edit Post</Button></Td>
-                <ModalEdit setPost={setPost} helper={helper} handleClose={handleClose} handleShow={handleShow} name={helper.name} age={helper.age} id={helper.id} getAllData={getAllData} />
+                <Td><Button onClick={() => handlerEdit(item.id)} colorScheme='teal' variant='solid'>Edit Post</Button>
+
+                </Td>
+
+                <ModalEdit setPost={setPost} helper={helperState.show} handleClose={handleClose} handleShow={handleShow} name={helperState.name} age={helperState.age} id={helperState.id} getAllData={getAllData} />
               </> : ''
               }
             </Tr>
