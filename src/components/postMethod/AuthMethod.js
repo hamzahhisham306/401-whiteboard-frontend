@@ -1,6 +1,7 @@
-import { AuthAction } from "../actions/AuthAction";
 import axios from "axios";
-import cookies from 'react-cookies'
+import cookies from 'react-cookies';
+import { LOGOUT_SUCCESS , LOGIN_SUCCESS, NO_MESSAGE, LOGIN_FALID,MESSAGE, ERROR_PASS } from '../../store/redux';
+
 export const handlerLogin = async (dispatch2, encoded) => {
     try {
         await axios.post('https://postgrees-srv.herokuapp.com/signin', {}, {
@@ -8,18 +9,18 @@ export const handlerLogin = async (dispatch2, encoded) => {
                 Authorization: `Basic ${encoded}`,
             }
         }).then(res => {
-            dispatch2({ type: AuthAction.LOGIN_SUCCESS, payload: res.data });
+            dispatch2(LOGIN_SUCCESS());
             cookies.save('userId', res.data.id);
             cookies.save('userName', res.data.username);
             cookies.save('token', res.data.token);
             cookies.save('capabilities', res.data.capabilities);
             cookies.save('userRole', res.data.userRole);
-            dispatch2({ type: AuthAction.NO_ERROR_PASS });
-            dispatch2({ type: AuthAction.NO_MESSAGE });
+            dispatch2(ERROR_PASS());
+            dispatch2(NO_MESSAGE());
         }).catch(error => {
             console.log(error)
-            dispatch2({ type: AuthAction.LOGIN_FALID })
-            dispatch2({ type: AuthAction.MESSAGE });
+            dispatch2(LOGIN_FALID())
+            dispatch2( MESSAGE());
         });
     } catch (error) {
         console.log(error)
@@ -32,13 +33,12 @@ export const logout = async (dispatch2) => {
     cookies.remove('userId');
     cookies.remove('userRole');
     cookies.remove('capabilities');
-
-    dispatch2({ type: AuthAction.LOGOUT_SUCCESS })
+    dispatch2(LOGOUT_SUCCESS());
 }
 
 export const handlerSigUP = async (dispatch2, newUser) => {
     await axios.post('https://postgrees-srv.herokuapp.com/signup', newUser).then(respone => {
-        dispatch2({ type: AuthAction.LOGIN_SUCCESS, payload: respone.data })
+        dispatch2(LOGIN_SUCCESS())
         cookies.save('userId', respone.data.id);
         cookies.save('userName', respone.data.username);
         cookies.save('token', respone.data.token);

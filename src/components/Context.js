@@ -1,15 +1,14 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext } from 'react';
 import cookies from 'react-cookies';
 import base64 from 'base-64';
-import { authReducer } from './reducer/authReducer';
-import { AuthState } from './actions/AuthAction';
-import { AuthAction } from './actions/AuthAction';
 import { handlerLogin, logout, handlerSigUP } from './postMethod/AuthMethod';
+import { useDispatch } from 'react-redux';
+import {ERROR_PASS, CAN_DO_IT, CAN_NOT_DO} from '../store/redux';
+
 const UserContext = createContext();
 export const useUserContext = () => useContext(UserContext);
-
 const UserContextProvider = props => {
-  const [stateAuth, dispatch2] = useReducer(authReducer, AuthState);
+  const dispatchRedux = useDispatch();
 
 
   const handlerSubmit = async (e) => {
@@ -18,7 +17,7 @@ const UserContextProvider = props => {
       alert('please fill all field')
     }
     else if (e.target.password.value !== e.target.confirm.value) {
-      dispatch2({ type: AuthAction.ERROR_PASS });
+      dispatchRedux(ERROR_PASS());
     }
     else if (e.target.password.value === e.target.confirm.value) {
       const user = {
@@ -26,18 +25,18 @@ const UserContextProvider = props => {
         password: e.target.password.value
       };
       const encoded = base64.encode(`${user.username}:${user.password}`)
-      handlerLogin(dispatch2, encoded);
+      handlerLogin(dispatchRedux, encoded);
     }
   }
   const handlerLogout = () => {
-    logout(dispatch2);
+    logout(dispatchRedux);
   }
   const canDo = () => {
     if (cookies.load('userRole') === 'admin') {
-      dispatch2({ tyep: AuthAction.CAN_DO_IT })
+      dispatchRedux(CAN_DO_IT())
     }
     else {
-      dispatch2({ type: AuthAction.CAN_NOT_DO });
+      dispatchRedux(CAN_NOT_DO());
     }
   }
   const handlerSignUp = async (e) => {
@@ -46,8 +45,7 @@ const UserContextProvider = props => {
       alert('please fill all field')
     }
     else if (e.target.password.value !== e.target.confirm.value) {
-      dispatch2({ type: AuthAction.ERROR_PASS });
-
+      dispatchRedux(ERROR_PASS());
     }
 
     else if (e.target.password.value === e.target.confirm.value) {
@@ -57,13 +55,13 @@ const UserContextProvider = props => {
         password: e.target.password.value,
         userRole: e.target.userRole.value
       }
-      handlerSigUP(dispatch2, newUser);
+      handlerSigUP(dispatchRedux, newUser);
 
     }
   }
 
   return (
-    <UserContext.Provider value={{ stateAuth, dispatch2, canDo, handlerSignUp, handlerSubmit, handlerLogout }}>
+    <UserContext.Provider value={{ canDo, handlerSignUp, handlerSubmit, handlerLogout }}>
       {props.children}
     </UserContext.Provider>
   )

@@ -1,28 +1,25 @@
 import axios from "axios";
-import { createContext, useReducer } from "react";
+import { createContext } from "react";
 import cookies from 'react-cookies';
 import { getData, AddPost, deleteSelectedPost } from "./postMethod/postMethod";
-import { helperReducer } from "./reducer/helperReducer";
-import { helperIntial } from "./actions/helperAction";
-import { helperAction } from "./actions/helperAction";
 import { postRedux } from '../store/post';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { NOT_SHOW, SET_AGE, SET_ID, SET_NAME, SHOW } from '../store/helper';
 export const userApi = createContext();
 
 const UserMethodApi = (props) => {
   const dispatchRedux = useDispatch();
+  const dispatchHelper = useDispatch();
   const posts = useSelector(postRedux);
 
 
-  const [helper, dispatch3] = useReducer(helperReducer, helperIntial);
   const handleClose = () => {
-    dispatch3({ type: helperAction.NOT_SHOW });
-    dispatch3({ type: helperAction.SET_NAME, payload: '' });
-    dispatch3({ type: helperAction.SET_AGE, payload: '' });
-    dispatch3({ type: helperAction.SET_ID, payload: '' });
+    dispatchHelper(NOT_SHOW());
+    dispatchHelper(SET_NAME(''));
+    dispatchHelper(SET_AGE(''));
+    dispatchHelper(SET_ID(''));
   };
-  const handleShow = () => dispatch3({ type: helperAction.SHOW });
+  const handleShow = () => dispatchHelper(SHOW());
   const deletePost = async (id) => {
     if (window.confirm("Are you sure to delete?")) {
       deleteSelectedPost(dispatchRedux, id);
@@ -33,11 +30,11 @@ const UserMethodApi = (props) => {
     }
   }
   const handlerEdit = async (id) => {
-    dispatch3({ type: helperAction.SHOW });
+    dispatchHelper(SHOW());
     await axios.get(`https://postgrees-srv.herokuapp.com/post/${id}`).then((res) => {
-      dispatch3({ type: helperAction.SET_NAME, payload: res.data.name });
-      dispatch3({ type: helperAction.SET_AGE, payload: res.data.age });
-      dispatch3({ type: helperAction.SET_ID, payload: res.data.id });
+      dispatchHelper(SET_NAME(res.data.name));
+      dispatchHelper(SET_AGE(res.data.age));
+      dispatchHelper(SET_ID(res.data.id));
     })
 
   }
@@ -49,19 +46,19 @@ const UserMethodApi = (props) => {
       age: e.target.age.value,
       ownerID: cookies.load('userId'),
     }
-    AddPost(dispatchRedux,newPost)
+    AddPost(dispatchRedux, newPost)
     e.target.reset();
 
   }
   const getAllData = async () => {
     // getData(dispatch)
     getData(dispatchRedux);
-  
+
   }
 
 
 
-  const value = { handlerSumitPost, helper, getAllData, handleShow, handlerEdit, deletePost, handleClose, posts };
+  const value = { handlerSumitPost, getAllData, handleShow, handlerEdit, deletePost, handleClose, posts };
   return (
     <userApi.Provider value={value}>
       {props.children}
